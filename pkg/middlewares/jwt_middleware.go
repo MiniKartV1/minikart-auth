@@ -2,10 +2,11 @@ package middlewares
 
 import (
 	"fmt"
-	"naresh/m/auth/internal/types"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"

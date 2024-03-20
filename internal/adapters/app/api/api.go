@@ -1,10 +1,11 @@
 package api
 
 import (
-	"naresh/m/auth/internal/models"
-	"naresh/m/auth/internal/ports"
-	"naresh/m/auth/internal/types"
 	"time"
+
+	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/ports"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
 
 	"github.com/golang-jwt/jwt/v4"
 )

@@ -4,10 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"naresh/m/auth/internal/models"
-	"naresh/m/auth/internal/types"
 	"os"
 	"time"
+
+	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
 
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"

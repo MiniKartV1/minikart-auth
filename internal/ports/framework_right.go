@@ -1,7 +1,7 @@
 package ports
 
 import (
-	"naresh/m/auth/internal/models"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
 )
 
 /*
