@@ -3,13 +3,14 @@ package main
 import (
 	"fmt"
 	"log"
-	"naresh/m/auth/internal/adapters/app/api"
-	"naresh/m/auth/internal/adapters/core/auth"
-	"naresh/m/auth/internal/adapters/framework/left/rest"
-	"naresh/m/auth/internal/adapters/framework/right/db"
-	"naresh/m/auth/internal/adapters/framework/right/email"
-	"naresh/m/auth/internal/ports"
 	"os"
+
+	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/app/api"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/core/auth"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/left/rest"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/right/db"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/right/email"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/ports"
 
 	"github.com/joho/godotenv"
 )

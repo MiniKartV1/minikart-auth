@@ -1,9 +1,10 @@
 package rest
 
 import (
-	"naresh/m/auth/internal/types"
 	"net/http"
 	"strings"
+
+	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
 
 	"github.com/gin-gonic/gin"
 )

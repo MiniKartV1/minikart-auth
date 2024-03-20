@@ -2,12 +2,13 @@ package rest
 
 import (
 	"log"
-	"naresh/m/auth/internal/ports"
-	"naresh/m/auth/internal/types"
-	"naresh/m/auth/pkg/middlewares"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/NareshAtnPLUS/naresh-auth/internal/ports"
+	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
+	"github.com/NareshAtnPLUS/naresh-auth/pkg/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -98,7 +99,7 @@ func getAuthRoutes(router *gin.Engine) []RouteMethods {
 
 func extractMethodName(s string) string {
 	// example string; we are extracting the method name from the below string.
-	// "naresh/m/auth/internal/adapters/framework/left/rest.Adapter.SignIn-fm"
+	// "github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/left/rest.Adapter.SignIn-fm"
 	// Find the last index of "/"
 	lastDotIndex := strings.LastIndex(s, ".")
 	// Extract the substring up to this position

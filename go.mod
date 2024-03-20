@@ -1,4 +1,4 @@
-module naresh/m/auth
+module github.com/NareshAtnPLUS/naresh-auth
 
 go 1.21.6
 
