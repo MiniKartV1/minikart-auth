@@ -5,8 +5,6 @@ import (
 
 	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
 	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
-
-	"github.com/golang-jwt/jwt/v4"
 )
 
 /*
@@ -27,5 +25,4 @@ type AuthenticationPort interface {
 	SignUp(user *types.SignUpBody) (*models.User, error)
 	ResetPassword(email string) (types.User, error)
 	ChangePassword(email, code, newPassword string) (types.User, error)
-	ValidateToken(tokenString string) (*jwt.Token, error)
 }
