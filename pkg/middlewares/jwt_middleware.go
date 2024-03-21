@@ -14,6 +14,7 @@ import (
 
 // jwtMiddleware checks the request for a valid JWT token
 func JwtMiddleware() gin.HandlerFunc {
+	// This acts as an middleware
 	return func(ctx *gin.Context) {
 		const Bearer_schema = "Bearer "
 		authHeader := ctx.GetHeader("Authorization")
