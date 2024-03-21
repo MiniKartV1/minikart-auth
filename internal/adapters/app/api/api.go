@@ -6,8 +6,6 @@ import (
 	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
 	"github.com/NareshAtnPLUS/naresh-auth/internal/ports"
 	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
-
-	"github.com/golang-jwt/jwt/v4"
 )
 
 /*
@@ -92,9 +90,4 @@ func (api Adapter) ChangePassword(email, code, newPassword string) (types.User, 
 	}
 	return res, nil
 
-}
-
-func (api Adapter) ValidateToken(tokenString *string) (*jwt.Token, error) {
-	token, err := api.auth.ValidateToken(*tokenString)
-	return token, err
 }

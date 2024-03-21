@@ -14,11 +14,11 @@ import (
 
 // jwtMiddleware checks the request for a valid JWT token
 func JwtMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(ctx *gin.Context) {
 		const Bearer_schema = "Bearer "
-		authHeader := c.GetHeader("Authorization")
+		authHeader := ctx.GetHeader("Authorization")
 		if !strings.HasPrefix(authHeader, Bearer_schema) {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 			return
 		}
 
@@ -34,7 +34,7 @@ func JwtMiddleware() gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
 		}
 
@@ -42,12 +42,12 @@ func JwtMiddleware() gin.HandlerFunc {
 		// Token is valid; you might want to extract claims and set them in the context
 		if ok && token.Valid {
 			// Attach user information to the context
-			c.Set("user", claims)
+			ctx.Set("user", claims)
 		} else {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
 		}
 
-		c.Next()
+		ctx.Next()
 	}
 }
