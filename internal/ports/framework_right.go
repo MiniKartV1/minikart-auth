@@ -1,7 +1,7 @@
 package ports
 
 import (
-	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
+	"github.com/MiniKartV1/minikart-auth/internal/models"
 )
 
 /*

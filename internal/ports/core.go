@@ -3,8 +3,8 @@ package ports
 import (
 	"time"
 
-	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/internal/models"
+	"github.com/MiniKartV1/minikart-auth/internal/types"
 )
 
 /*

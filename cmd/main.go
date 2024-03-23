@@ -5,12 +5,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/app/api"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/core/auth"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/left/rest"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/right/db"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/right/email"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/ports"
+	"github.com/MiniKartV1/minikart-auth/internal/adapters/app/api"
+	"github.com/MiniKartV1/minikart-auth/internal/adapters/core/auth"
+	"github.com/MiniKartV1/minikart-auth/internal/adapters/framework/left/rest"
+	"github.com/MiniKartV1/minikart-auth/internal/adapters/framework/right/db"
+	"github.com/MiniKartV1/minikart-auth/internal/adapters/framework/right/email"
+	"github.com/MiniKartV1/minikart-auth/internal/ports"
 
 	"github.com/joho/godotenv"
 )

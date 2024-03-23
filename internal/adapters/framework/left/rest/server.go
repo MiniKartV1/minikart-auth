@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/NareshAtnPLUS/naresh-auth/internal/ports"
-	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
-	"github.com/NareshAtnPLUS/naresh-auth/pkg/middlewares"
+	"github.com/MiniKartV1/minikart-auth/internal/ports"
+	"github.com/MiniKartV1/minikart-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/pkg/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -99,7 +99,7 @@ func getAuthRoutes(router *gin.Engine) []RouteMethods {
 
 func extractMethodName(s string) string {
 	// example string; we are extracting the method name from the below string.
-	// "github.com/NareshAtnPLUS/naresh-auth/internal/adapters/framework/left/rest.Adapter.SignIn-fm"
+	// "github.com/MiniKartV1/minikart-auth/internal/adapters/framework/left/rest.Adapter.SignIn-fm"
 	// Find the last index of "/"
 	lastDotIndex := strings.LastIndex(s, ".")
 	// Extract the substring up to this position

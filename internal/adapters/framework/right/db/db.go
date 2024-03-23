@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/NareshAtnPLUS/naresh-auth/internal/models"
+	"github.com/MiniKartV1/minikart-auth/internal/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

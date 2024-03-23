@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/internal/types"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"

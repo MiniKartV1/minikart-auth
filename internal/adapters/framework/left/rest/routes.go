@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/NareshAtnPLUS/naresh-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/internal/types"
 
 	"github.com/gin-gonic/gin"
 )

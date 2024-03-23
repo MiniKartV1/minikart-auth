@@ -1,4 +1,4 @@
-module github.com/NareshAtnPLUS/naresh-auth
+module github.com/MiniKartV1/minikart-auth
 
 go 1.21.6
 
