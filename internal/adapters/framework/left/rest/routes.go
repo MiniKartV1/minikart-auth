@@ -4,14 +4,14 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/MiniKartV1/minikart-auth/pkg/types"
+	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (rest Adapter) SignIn(ctx *gin.Context) {
 
-	var signInBody types.SigInBody
+	var signInBody user_types.SigInBody
 	if err := ctx.ShouldBind(&signInBody); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad request",
@@ -35,7 +35,7 @@ func (rest Adapter) SignIn(ctx *gin.Context) {
 	return
 }
 func (rest Adapter) SignOut(ctx *gin.Context) {
-	var signObject types.SigInBody
+	var signObject user_types.SigInBody
 	if err := ctx.ShouldBind(&signObject); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad request",
@@ -59,7 +59,7 @@ func (rest Adapter) SignOut(ctx *gin.Context) {
 	return
 }
 func (rest Adapter) SignUp(ctx *gin.Context) {
-	var signupObject types.SignUpBody
+	var signupObject user_types.SignUpBody
 	if err := ctx.ShouldBind(&signupObject); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad request",
@@ -92,7 +92,7 @@ func (rest Adapter) SignUp(ctx *gin.Context) {
 	return
 }
 func (rest Adapter) ResetPassword(ctx *gin.Context) {
-	var restPasswordBody types.UserEmail
+	var restPasswordBody user_types.UserEmail
 	if err := ctx.ShouldBind(&restPasswordBody); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad request",
@@ -116,7 +116,7 @@ func (rest Adapter) ResetPassword(ctx *gin.Context) {
 	return
 }
 func (rest Adapter) ChangePassword(ctx *gin.Context) {
-	var signObject types.SigInBody
+	var signObject user_types.SigInBody
 	if err := ctx.ShouldBind(&signObject); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad request",
@@ -139,7 +139,7 @@ func (rest Adapter) ChangePassword(ctx *gin.Context) {
 	return
 }
 func (rest Adapter) GetAccessToken(ctx *gin.Context) {
-	var tokenBody types.TokenBody
+	var tokenBody user_types.TokenBody
 	if err := ctx.ShouldBind(&tokenBody); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad request",

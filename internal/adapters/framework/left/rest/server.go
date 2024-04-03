@@ -6,7 +6,7 @@ import (
 
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
 	"github.com/MiniKartV1/minikart-auth/pkg/middlewares"
-	"github.com/MiniKartV1/minikart-auth/pkg/types"
+	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -41,7 +41,7 @@ func (rest Adapter) Run() {
 }
 func (rest Adapter) Health(ctx *gin.Context) {
 	if claims, exists := ctx.Get("user"); exists {
-		userClaims := claims.(*types.UserClaims) // Type assertion
+		userClaims := claims.(*user_types.UserClaims) // Type assertion
 		isActive, userErr := rest.api.Health(&userClaims.Email)
 		if !isActive || userErr != nil {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -62,7 +62,7 @@ func (rest Adapter) Health(ctx *gin.Context) {
 func registerProtectedRoutes(protectedRoutes *gin.RouterGroup) {
 	protectedRoutes.GET("/profile", func(ctx *gin.Context) {
 		if claims, exists := ctx.Get("user"); exists {
-			userClaims := claims.(*types.UserClaims) // Type assertion
+			userClaims := claims.(*user_types.UserClaims) // Type assertion
 			// Now you can use userClaims.Email, userClaims.Roles, etc.
 			ctx.JSON(http.StatusOK, gin.H{
 				"email":    userClaims.Email,

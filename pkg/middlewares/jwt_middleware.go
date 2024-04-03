@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/MiniKartV1/minikart-auth/pkg/types"
+	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +29,7 @@ func JwtMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		claims, ok := token.Claims.(*types.UserClaims)
+		claims, ok := token.Claims.(*user_types.UserClaims)
 		// Token is valid; you might want to extract claims and set them in the context
 		if ok && token.Valid {
 			// Attach user information to the context

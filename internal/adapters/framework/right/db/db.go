@@ -7,8 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/MiniKartV1/minikart-auth/pkg/models"
-
+	user_models "github.com/MiniKartV1/minikart-auth/pkg/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -54,7 +53,7 @@ func (dbClient Adapter) CloseDBConnection() {
 	log.Output(1, "Closing the db connection")
 }
 
-func (dbClient Adapter) AddUser(user *models.User) error {
+func (dbClient Adapter) AddUser(user *user_models.User) error {
 	// register
 
 	result, err := dbClient.usersCollection.InsertOne(context.TODO(), user)
@@ -78,21 +77,21 @@ func (dbClient Adapter) UpdatePassword() {
 	// changepassword
 	fmt.Println("Updating the password")
 }
-func (dbClient Adapter) FindUserByEmail(email *string) (*models.User, error) {
-	var user models.User
+func (dbClient Adapter) FindUserByEmail(email *string) (*user_models.User, error) {
+	var user user_models.User
 	err := dbClient.usersCollection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&user)
 
 	if err != nil {
 		log.Printf("Error in finding user: %v", err)
-		return &models.User{}, err
+		return &user_models.User{}, err
 	}
 	return &user, nil
 }
-func (dbClient Adapter) UpdateLastSignedIn(email *string) (*models.User, error) {
+func (dbClient Adapter) UpdateLastSignedIn(email *string) (*user_models.User, error) {
 	if email == nil {
 		return nil, errors.New("NIL_EMAIL: bad parameters passed")
 	}
-	var updatedUser models.User
+	var updatedUser user_models.User
 	update := bson.M{
 		"$set": bson.M{"lastSignedIn": time.Now()},
 	}

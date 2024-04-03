@@ -3,8 +3,8 @@ package ports
 import (
 	"time"
 
-	"github.com/MiniKartV1/minikart-auth/pkg/models"
-	"github.com/MiniKartV1/minikart-auth/pkg/types"
+	user_models "github.com/MiniKartV1/minikart-auth/pkg/models"
+	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 )
 
 /*
@@ -20,10 +20,10 @@ import (
 */
 
 type AuthenticationPort interface {
-	SignIn(dbUser *models.User, user *types.SigInBody) (*types.SignedUser, error)
-	SignOut(email string, currTime *time.Time) (types.User, error)
-	SignUp(user *types.SignUpBody) (*models.User, error)
-	ResetPassword(email string) (types.User, error)
-	ChangePassword(email, code, newPassword string) (types.User, error)
-	GetAccessToken(token *models.User) (*string, error)
+	SignIn(dbUser *user_models.User, user *user_types.SigInBody) (*user_types.SignedUser, error)
+	SignOut(email string, currTime *time.Time) (user_types.User, error)
+	SignUp(user *user_types.SignUpBody) (*user_models.User, error)
+	ResetPassword(email string) (user_types.User, error)
+	ChangePassword(email, code, newPassword string) (user_types.User, error)
+	GetAccessToken(token *user_models.User) (*string, error)
 }

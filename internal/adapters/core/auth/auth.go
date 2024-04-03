@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/MiniKartV1/minikart-auth/pkg/models"
-	"github.com/MiniKartV1/minikart-auth/pkg/types"
+	user_models "github.com/MiniKartV1/minikart-auth/pkg/models"
+	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
@@ -22,7 +22,7 @@ func NewAdapter() *Adapter {
 	return &Adapter{}
 }
 
-func (auth Adapter) SignIn(dbUser *models.User, user *types.SigInBody) (*types.SignedUser, error) {
+func (auth Adapter) SignIn(dbUser *user_models.User, user *user_types.SigInBody) (*user_types.SignedUser, error) {
 	err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password))
 	if err != nil {
 		log.Printf("Authentication failed: %v", err)
@@ -47,10 +47,10 @@ func (auth Adapter) SignIn(dbUser *models.User, user *types.SigInBody) (*types.S
 		return nil, err
 	}
 	fmt.Println("Login Successful")
-	return &types.SignedUser{
+	return &user_types.SignedUser{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
-		User: types.User{
+		User: user_types.User{
 			FirstName: dbUser.FirstName,
 			LastName:  dbUser.LastName,
 			Email:     dbUser.Email,
@@ -59,7 +59,7 @@ func (auth Adapter) SignIn(dbUser *models.User, user *types.SigInBody) (*types.S
 
 }
 
-func (auth Adapter) SignUp(user *types.SignUpBody) (*models.User, error) {
+func (auth Adapter) SignUp(user *user_types.SignUpBody) (*user_models.User, error) {
 
 	// hash the password here
 	hashedPassword, err := generatePasswordHash(user.Password)
@@ -67,7 +67,7 @@ func (auth Adapter) SignUp(user *types.SignUpBody) (*models.User, error) {
 		fmt.Println("Error in generating password hash", err)
 		return nil, err
 	}
-	newUser := models.User{
+	newUser := user_models.User{
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
@@ -75,17 +75,17 @@ func (auth Adapter) SignUp(user *types.SignUpBody) (*models.User, error) {
 	}
 	return &newUser, nil
 }
-func (auth Adapter) SignOut(email string, currTime *time.Time) (types.User, error) {
+func (auth Adapter) SignOut(email string, currTime *time.Time) (user_types.User, error) {
 	fmt.Println(currTime)
-	return types.User{}, nil
+	return user_types.User{}, nil
 }
-func (auth Adapter) ResetPassword(email string) (types.User, error) {
-	return types.User{}, nil
+func (auth Adapter) ResetPassword(email string) (user_types.User, error) {
+	return user_types.User{}, nil
 }
-func (auth Adapter) ChangePassword(email, code, newPassword string) (types.User, error) {
-	return types.User{}, nil
+func (auth Adapter) ChangePassword(email, code, newPassword string) (user_types.User, error) {
+	return user_types.User{}, nil
 }
-func (auth Adapter) GetAccessToken(user *models.User) (*string, error) {
+func (auth Adapter) GetAccessToken(user *user_models.User) (*string, error) {
 	accessToken := ""
 	accessTokenSecret := os.Getenv("SECRET_KEY")
 	accessTokenExpiryStr := os.Getenv("ACCESS_TOKEN_EXPIRY")
@@ -110,10 +110,10 @@ func generatePasswordHash(password string) (string, error) {
 	}
 	return string(bytes), nil
 }
-func generateTokenForUser(user *models.User, secretKey string, expiresAt time.Time) (string, error) {
+func generateTokenForUser(user *user_models.User, secretKey string, expiresAt time.Time) (string, error) {
 
-	claims := &types.UserClaims{
-		User: &types.User{
+	claims := &user_types.UserClaims{
+		User: &user_types.User{
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
 			Email:     user.Email,

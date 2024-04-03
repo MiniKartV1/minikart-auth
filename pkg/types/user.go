@@ -1,4 +1,4 @@
-package types
+package user_types
 
 import "github.com/golang-jwt/jwt/v4"
 

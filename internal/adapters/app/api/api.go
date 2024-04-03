@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
-	"github.com/MiniKartV1/minikart-auth/pkg/models"
-	"github.com/MiniKartV1/minikart-auth/pkg/types"
+	user_models "github.com/MiniKartV1/minikart-auth/pkg/models"
+	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 )
 
@@ -33,27 +33,27 @@ func NewAdapter(auth ports.AuthenticationPort, db ports.DBPort, emailService por
 	}
 }
 
-func (api Adapter) SignIn(user *types.SigInBody) (*types.SignedUser, error) {
+func (api Adapter) SignIn(user *user_types.SigInBody) (*user_types.SignedUser, error) {
 	// fetch user from the db
 	dbUser, err := api.db.FindUserByEmail(&user.Email)
 	res, err := api.auth.SignIn(dbUser, user)
 	if err != nil {
-		return &types.SignedUser{}, err
+		return &user_types.SignedUser{}, err
 	}
 	// TODO: db operation
 	_, err = api.db.UpdateLastSignedIn(&user.Email)
 	return res, nil
 }
 
-func (api Adapter) SignOut(email string) (types.User, error) {
+func (api Adapter) SignOut(email string) (user_types.User, error) {
 	currTime := time.Now()
 	res, err := api.auth.SignOut(email, &currTime)
 	if err != nil {
-		return types.User{}, err
+		return user_types.User{}, err
 	}
 	return res, nil
 }
-func (api Adapter) SignUp(signup *types.SignUpBody) (*models.User, error) {
+func (api Adapter) SignUp(signup *user_types.SignUpBody) (*user_models.User, error) {
 	/*
 		check for the existing users with the same email.
 		password hashing
@@ -64,31 +64,31 @@ func (api Adapter) SignUp(signup *types.SignUpBody) (*models.User, error) {
 	*/
 	newUser, err := api.auth.SignUp(signup)
 	if err != nil {
-		return &models.User{}, err
+		return &user_models.User{}, err
 	}
 
 	err = api.db.AddUser(newUser)
 	if err != nil {
-		return &models.User{}, err
+		return &user_models.User{}, err
 	}
 	return newUser, nil
 }
 
-func (api Adapter) ResetPassword(user *types.UserEmail) (types.User, error) {
+func (api Adapter) ResetPassword(user *user_types.UserEmail) (user_types.User, error) {
 	res, err := api.auth.ResetPassword(user.Email)
 
 	if err != nil {
-		return types.User{}, err
+		return user_types.User{}, err
 	}
 	return res, nil
 }
 
-func (api Adapter) ChangePassword(email, code, newPassword string) (types.User, error) {
+func (api Adapter) ChangePassword(email, code, newPassword string) (user_types.User, error) {
 
 	res, err := api.auth.ChangePassword(email, code, newPassword)
 
 	if err != nil {
-		return types.User{}, err
+		return user_types.User{}, err
 	}
 	return res, nil
 
@@ -104,7 +104,7 @@ func (api Adapter) Health(email *string) (bool, error) {
 func (api Adapter) GetAccessToken(token string) (*string, error) {
 
 	tokenClaims, err := utils.GetUserClaimsFromToken(token)
-	claims, _ := tokenClaims.Claims.(*types.UserClaims)
+	claims, _ := tokenClaims.Claims.(*user_types.UserClaims)
 	dbUser, err := api.db.FindUserByEmail(&claims.Email)
 	if !dbUser.IsActive || err != nil {
 		noToken := ""
