@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/MiniKartV1/minikart-auth/internal/models"
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
 	"github.com/MiniKartV1/minikart-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/pkg/models"
 	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 )
 

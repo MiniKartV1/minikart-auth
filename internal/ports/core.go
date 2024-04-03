@@ -3,8 +3,8 @@ package ports
 import (
 	"time"
 
-	"github.com/MiniKartV1/minikart-auth/internal/models"
 	"github.com/MiniKartV1/minikart-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/pkg/models"
 )
 
 /*
