@@ -33,6 +33,7 @@ var SERVER *gin.Engine
 func (rest Adapter) Run() {
 	var err error
 	SERVER = gin.Default()
+	SERVER.Use(middlewares.CORSMiddleware())
 	apiRoutes := SERVER.Group("/api/auth")
 	protectedRoutes := apiRoutes.Group("/protected")
 	protectedRoutes.Use(middlewares.JwtMiddleware())
@@ -45,6 +46,16 @@ func (rest Adapter) Run() {
 	}
 }
 func (rest Adapter) Health(ctx *gin.Context) {
+	if claims, exists := ctx.Get("user"); exists {
+		userClaims := claims.(*types.UserClaims) // Type assertion
+		isActive, userErr := rest.api.Health(&userClaims.Email)
+		if !isActive || userErr != nil {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"message": "user is not active. please contact dev",
+			})
+		}
+	}
+
 	clientType := ctx.GetHeader("X-Client-Type")
 	if clientType == "web-app" {
 		authRoutes := getAuthRoutes(SERVER)
@@ -78,6 +89,7 @@ func registerAuthRoutes(apiRoutes *gin.RouterGroup, rest *Adapter) {
 	apiRoutes.POST("/signout", rest.SignOut)
 	apiRoutes.POST("/reset-password", rest.ResetPassword)
 	apiRoutes.POST("/change-password", rest.ChangePassword)
+	apiRoutes.POST("/access-token", rest.GetAccessToken)
 }
 
 // getAuthRoutes returns a list of routes under /api/auth

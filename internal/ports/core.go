@@ -25,4 +25,5 @@ type AuthenticationPort interface {
 	SignUp(user *types.SignUpBody) (*models.User, error)
 	ResetPassword(email string) (types.User, error)
 	ChangePassword(email, code, newPassword string) (types.User, error)
+	GetAccessToken(token *models.User) (*string, error)
 }

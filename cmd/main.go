@@ -23,7 +23,7 @@ func main() {
 	var err error
 	errLoad := godotenv.Load("../.env")
 	if errLoad != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		log.Fatalf("Error loading .env file: %v", errLoad)
 	}
 	// portrs
 	var coreAdapter ports.AuthenticationPort

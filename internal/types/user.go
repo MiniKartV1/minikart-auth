@@ -3,13 +3,14 @@ package types
 import "github.com/golang-jwt/jwt/v4"
 
 type User struct {
-	FirstName string
-	LastName  string
-	Email     string
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
+	Email     string `json:"email"`
 }
 type SignedUser struct {
 	User
-	SignedToken string
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
 }
 type UserClaims struct {
 	*User
@@ -32,4 +33,7 @@ type UserEmail struct {
 type SigInBody struct {
 	UserEmail
 	Password string `json:"password" binding:"required"`
+}
+type TokenBody struct {
+	RefreshToken string `json:"refreshToken" binding:"required"`
 }

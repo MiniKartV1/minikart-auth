@@ -1,11 +1,13 @@
 package api
 
 import (
+	"errors"
 	"time"
 
 	"github.com/MiniKartV1/minikart-auth/internal/models"
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
 	"github.com/MiniKartV1/minikart-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 )
 
 /*
@@ -90,4 +92,27 @@ func (api Adapter) ChangePassword(email, code, newPassword string) (types.User, 
 	}
 	return res, nil
 
+}
+func (api Adapter) Health(email *string) (bool, error) {
+
+	dbUser, err := api.db.FindUserByEmail(email)
+	if !dbUser.IsActive || err != nil {
+		return false, nil
+	}
+	return true, nil
+}
+func (api Adapter) GetAccessToken(token string) (*string, error) {
+
+	tokenClaims, err := utils.GetUserClaimsFromToken(token)
+	claims, _ := tokenClaims.Claims.(*types.UserClaims)
+	dbUser, err := api.db.FindUserByEmail(&claims.Email)
+	if !dbUser.IsActive || err != nil {
+		noToken := ""
+		return &noToken, errors.New("Inactive_User")
+	}
+	res, err := api.auth.GetAccessToken(dbUser)
+	if err != nil {
+		return res, err
+	}
+	return res, err
 }

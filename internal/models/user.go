@@ -13,4 +13,5 @@ type User struct {
 	Password     string     `json:"-" bson:"password,omitempty"`
 	LastSignedIn *time.Time `bson:"lastSignedIn,omitempty"` // Pointer to time.Time allows for a nil value
 	Verified     bool       `bson:"verified,omitempty"`     // Defaults to false
+	IsActive     bool       `bson:"isActive,omitempty"`
 }

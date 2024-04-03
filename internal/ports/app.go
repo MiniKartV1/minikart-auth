@@ -17,4 +17,6 @@ type APIPort interface {
 	SignUp(*types.SignUpBody) (*models.User, error)
 	ResetPassword(*types.UserEmail) (types.User, error)
 	ChangePassword(email, code, newPassword string) (types.User, error)
+	Health(email *string) (bool, error)
+	GetAccessToken(token string) (*string, error)
 }

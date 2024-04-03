@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/MiniKartV1/minikart-auth/internal/models"
@@ -27,16 +28,30 @@ func (auth Adapter) SignIn(dbUser *models.User, user *types.SigInBody) (*types.S
 		log.Printf("Authentication failed: %v", err)
 		return nil, errors.New("CREDENTIALS_FAILED: email or password is wrong.") // Fixed typo
 	}
+	accessTokenSecret := os.Getenv("SECRET_KEY")
+	refreshTokenSecret := os.Getenv("REFRESH_SECRET_KEY")
+	accessTokenExpiryStr := os.Getenv("ACCESS_TOKEN_EXPIRY")
+	accessTokenExpiry, err := strconv.Atoi(accessTokenExpiryStr)
 
-	signedToken, err := generateTokenForUser(dbUser)
+	accessToken, err := generateTokenForUser(
+		dbUser,
+		accessTokenSecret,
+		time.Now().Add(time.Hour*time.Duration(accessTokenExpiry)),
+	)
+	refreshToken, err := generateTokenForUser(
+		dbUser,
+		refreshTokenSecret,
+		time.Now().Add(24*time.Hour*30),
+	)
 	if err != nil {
 		return nil, err
 	}
 	fmt.Println("Login Successful")
 	return &types.SignedUser{
-		SignedToken: signedToken,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 		User: types.User{
-			FirstName: dbUser.Email,
+			FirstName: dbUser.FirstName,
 			LastName:  dbUser.LastName,
 			Email:     dbUser.Email,
 		},
@@ -70,6 +85,21 @@ func (auth Adapter) ResetPassword(email string) (types.User, error) {
 func (auth Adapter) ChangePassword(email, code, newPassword string) (types.User, error) {
 	return types.User{}, nil
 }
+func (auth Adapter) GetAccessToken(user *models.User) (*string, error) {
+	accessToken := ""
+	accessTokenSecret := os.Getenv("SECRET_KEY")
+	accessTokenExpiryStr := os.Getenv("ACCESS_TOKEN_EXPIRY")
+	accessTokenExpiry, _ := strconv.Atoi(accessTokenExpiryStr)
+	accessToken, err := generateTokenForUser(
+		user,
+		accessTokenSecret,
+		time.Now().Add(time.Hour*time.Duration(accessTokenExpiry)),
+	)
+	if err != nil {
+		return &accessToken, err
+	}
+	return &accessToken, nil
+}
 func generatePasswordHash(password string) (string, error) {
 	// Generate a hashed version of the password
 	// The second argument is the cost of hashing, which determines how much time is needed to calculate the hash.
@@ -80,8 +110,8 @@ func generatePasswordHash(password string) (string, error) {
 	}
 	return string(bytes), nil
 }
-func generateTokenForUser(user *models.User) (string, error) {
-	secretKey := os.Getenv("SECRET_KEY")
+func generateTokenForUser(user *models.User, secretKey string, expiresAt time.Time) (string, error) {
+
 	claims := &types.UserClaims{
 		User: &types.User{
 			FirstName: user.FirstName,
@@ -89,7 +119,7 @@ func generateTokenForUser(user *models.User) (string, error) {
 			Email:     user.Email,
 		},
 		RegisteredClaims: &jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)), // token expires after 24 hours
+			ExpiresAt: jwt.NewNumericDate(expiresAt), // token expires after 24 hours
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}

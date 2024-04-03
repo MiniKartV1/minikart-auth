@@ -23,7 +23,7 @@ func (rest Adapter) SignIn(ctx *gin.Context) {
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Internal Server Error",
+			"message": err.Error(),
 		})
 		return
 	}
@@ -137,4 +137,26 @@ func (rest Adapter) ChangePassword(ctx *gin.Context) {
 		"message": "change password successful",
 	})
 	return
+}
+func (rest Adapter) GetAccessToken(ctx *gin.Context) {
+	var tokenBody types.TokenBody
+	if err := ctx.ShouldBind(&tokenBody); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "bad request",
+		})
+		return
+	}
+	accessToken, err := rest.api.GetAccessToken(tokenBody.RefreshToken)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusCreated, gin.H{
+		"message": gin.H{
+			"accessToken": accessToken,
+		},
+	})
+
 }
