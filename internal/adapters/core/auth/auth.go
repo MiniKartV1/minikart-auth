@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/MiniKartV1/minikart-auth/internal/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/models"
+	"github.com/MiniKartV1/minikart-auth/pkg/types"
 
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"

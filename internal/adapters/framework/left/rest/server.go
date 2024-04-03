@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
-	"github.com/MiniKartV1/minikart-auth/internal/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/middlewares"
+	"github.com/MiniKartV1/minikart-auth/pkg/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 
 	"github.com/gin-gonic/gin"

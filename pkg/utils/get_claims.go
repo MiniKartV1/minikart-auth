@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/MiniKartV1/minikart-auth/internal/types"
+	"github.com/MiniKartV1/minikart-auth/pkg/types"
 	"github.com/golang-jwt/jwt/v4"
 )
 
