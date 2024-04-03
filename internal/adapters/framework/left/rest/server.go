@@ -3,21 +3,15 @@ package rest
 import (
 	"log"
 	"net/http"
-	"os"
-	"strings"
 
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
 	"github.com/MiniKartV1/minikart-auth/internal/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/middlewares"
+	"github.com/MiniKartV1/minikart-auth/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
-type RouteMethods struct {
-	OperationId string
-	APIRoute    string
-	Method      string
-}
 type Adapter struct {
 	api ports.APIPort
 }
@@ -58,7 +52,7 @@ func (rest Adapter) Health(ctx *gin.Context) {
 
 	clientType := ctx.GetHeader("X-Client-Type")
 	if clientType == "web-app" {
-		authRoutes := getAuthRoutes(SERVER)
+		authRoutes := utils.GetRoutes(SERVER, "auth")
 		ctx.JSON(http.StatusOK, gin.H{"status": "UP", "operations": authRoutes})
 		return
 	}
@@ -93,30 +87,3 @@ func registerAuthRoutes(apiRoutes *gin.RouterGroup, rest *Adapter) {
 }
 
 // getAuthRoutes returns a list of routes under /api/auth
-func getAuthRoutes(router *gin.Engine) []RouteMethods {
-	serverLocation := os.Getenv("SERVER_LOCATION")
-	var authRoutes []RouteMethods
-	for _, route := range router.Routes() {
-
-		if strings.HasPrefix(route.Path, "/api/auth") && !strings.HasPrefix(route.Path, "/api/auth/health") {
-			authRoutes = append(authRoutes, RouteMethods{
-				OperationId: extractMethodName(route.Handler),
-				APIRoute:    serverLocation + route.Path,
-				Method:      route.Method,
-			})
-		}
-	}
-	return authRoutes
-}
-
-func extractMethodName(s string) string {
-	// example string; we are extracting the method name from the below string.
-	// "github.com/MiniKartV1/minikart-auth/internal/adapters/framework/left/rest.Adapter.SignIn-fm"
-	// Find the last index of "/"
-	lastDotIndex := strings.LastIndex(s, ".")
-	// Extract the substring up to this position
-	if lastDotIndex != -1 {
-		return s[lastDotIndex+1 : len(s)-3]
-	}
-	return ""
-}
