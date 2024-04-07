@@ -18,4 +18,5 @@ type RESTPort interface {
 	ChangePassword(ctx *gin.Context)
 	Health(ctx *gin.Context)
 	GetAccessToken(ctx *gin.Context)
+	Profile(ctx *gin.Context)
 }

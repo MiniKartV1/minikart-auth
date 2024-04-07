@@ -32,7 +32,7 @@ func (rest Adapter) Run() {
 	protectedRoutes := apiRoutes.Group("/protected")
 	protectedRoutes.Use(middlewares.JwtMiddleware())
 	registerAuthRoutes(apiRoutes, &rest)
-	registerProtectedRoutes(protectedRoutes)
+	registerProtectedRoutes(protectedRoutes, &rest)
 	err = SERVER.Run(":3000")
 
 	if err != nil {
@@ -59,22 +59,23 @@ func (rest Adapter) Health(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "UP"})
 	return
 }
-func registerProtectedRoutes(protectedRoutes *gin.RouterGroup) {
-	protectedRoutes.GET("/profile", func(ctx *gin.Context) {
-		if claims, exists := ctx.Get("user"); exists {
-			userClaims := claims.(*user_types.UserClaims) // Type assertion
-			// Now you can use userClaims.Email, userClaims.Roles, etc.
-			ctx.JSON(http.StatusOK, gin.H{
-				"email":    userClaims.Email,
-				"fullname": userClaims.FirstName + " " + userClaims.LastName,
-			})
-			return
-		}
+func (rest Adapter) Profile(ctx *gin.Context) {
+	if claims, exists := ctx.Get("user"); exists {
+		userClaims := claims.(*user_types.UserClaims) // Type assertion
+		// Now you can use userClaims.Email, userClaims.Roles, etc.
 		ctx.JSON(http.StatusOK, gin.H{
-			"message": "Hello from protected endpoint",
+			"email":    userClaims.Email,
+			"fullname": userClaims.FirstName + " " + userClaims.LastName,
 		})
 		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Hello from protected endpoint",
 	})
+	return
+}
+func registerProtectedRoutes(protectedRoutes *gin.RouterGroup, rest *Adapter) {
+	protectedRoutes.GET("/profile", rest.Profile)
 }
 func registerAuthRoutes(apiRoutes *gin.RouterGroup, rest *Adapter) {
 	apiRoutes.GET("/health", rest.Health)
