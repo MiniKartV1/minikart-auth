@@ -61,7 +61,7 @@ func (rest Adapter) Health(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"status": "UP", "operations": authRoutes})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"status": "UP", "message": "Hello World from minikart-auth after updating buildspec.yml"})
+	ctx.JSON(http.StatusOK, gin.H{"status": "UP", "message": "minikart is now very light, it is exporting only bin/application"})
 	return
 }
 func (rest Adapter) Profile(ctx *gin.Context) {
