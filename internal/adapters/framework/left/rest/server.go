@@ -34,7 +34,11 @@ func (rest Adapter) Run() {
 	protectedRoutes.Use(middlewares.JwtMiddleware())
 	registerAuthRoutes(apiRoutes, &rest)
 	registerProtectedRoutes(protectedRoutes, &rest)
-	err = SERVER.Run(":" + os.Getenv("PORT"))
+	port := os.Getenv("PORT")
+	if len(port) != 4 {
+		port = "5000"
+	}
+	err = SERVER.Run(":" + port)
 
 	if err != nil {
 		log.Fatalf("Cannot start the rest server %v", err)
@@ -57,7 +61,7 @@ func (rest Adapter) Health(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"status": "UP", "operations": authRoutes})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"status": "UP"})
+	ctx.JSON(http.StatusOK, gin.H{"status": "UP", "message": "Hello World"})
 	return
 }
 func (rest Adapter) Profile(ctx *gin.Context) {
