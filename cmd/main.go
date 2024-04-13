@@ -21,7 +21,9 @@ func main() {
 	defer os.Exit(0)
 
 	var err error
-	if os.Getenv("SERVER_LOCATION") != "http://localhost:3000" {
+	serverLocation := os.Getenv("SERVER_LOCATION")
+	fmt.Println(serverLocation)
+	if serverLocation != "http://localhost:3000" {
 		errLoad := godotenv.Load()
 		if errLoad != nil {
 			log.Fatalf("Error loading .env file: %v", errLoad)
