@@ -72,6 +72,7 @@ func (auth Adapter) SignUp(user *user_types.SignUpBody) (*user_models.User, erro
 		LastName:  user.LastName,
 		Email:     user.Email,
 		Password:  hashedPassword,
+		IsActive:  true,
 	}
 	return &newUser, nil
 }
