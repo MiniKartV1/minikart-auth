@@ -21,9 +21,11 @@ func main() {
 	defer os.Exit(0)
 
 	var err error
-	errLoad := godotenv.Load()
-	if errLoad != nil {
-		log.Fatalf("Error loading .env file: %v", errLoad)
+	if os.Getenv("SERVER_LOCATION") != "http://localhost:3000" {
+		errLoad := godotenv.Load()
+		if errLoad != nil {
+			log.Fatalf("Error loading .env file: %v", errLoad)
+		}
 	}
 	// portrs
 	var coreAdapter ports.AuthenticationPort
