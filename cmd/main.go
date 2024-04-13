@@ -23,7 +23,7 @@ func main() {
 	var err error
 	serverLocation := os.Getenv("SERVER_LOCATION")
 	fmt.Println("serverLocation", serverLocation)
-	if serverLocation != "http://localhost:3000" {
+	if serverLocation == "" {
 		fmt.Println("Loading .env file")
 		errLoad := godotenv.Load()
 		if errLoad != nil {
