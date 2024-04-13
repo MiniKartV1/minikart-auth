@@ -22,7 +22,7 @@ func main() {
 
 	var err error
 	serverLocation := os.Getenv("SERVER_LOCATION")
-	fmt.Println(serverLocation)
+	fmt.Println("serverLocation", serverLocation)
 	if serverLocation != "http://localhost:3000" {
 		errLoad := godotenv.Load()
 		if errLoad != nil {
