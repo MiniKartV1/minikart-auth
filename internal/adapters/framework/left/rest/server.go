@@ -3,6 +3,7 @@ package rest
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/MiniKartV1/minikart-auth/internal/ports"
 	"github.com/MiniKartV1/minikart-auth/pkg/middlewares"
@@ -33,7 +34,7 @@ func (rest Adapter) Run() {
 	protectedRoutes.Use(middlewares.JwtMiddleware())
 	registerAuthRoutes(apiRoutes, &rest)
 	registerProtectedRoutes(protectedRoutes, &rest)
-	err = SERVER.Run(":3000")
+	err = SERVER.Run(":" + os.Getenv("PORT"))
 
 	if err != nil {
 		log.Fatalf("Cannot start the rest server %v", err)
