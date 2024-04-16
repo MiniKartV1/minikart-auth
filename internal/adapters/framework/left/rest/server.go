@@ -9,6 +9,7 @@ import (
 	"github.com/MiniKartV1/minikart-auth/pkg/middlewares"
 	user_types "github.com/MiniKartV1/minikart-auth/pkg/types"
 	"github.com/MiniKartV1/minikart-auth/pkg/utils"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,7 +29,13 @@ var SERVER *gin.Engine
 func (rest Adapter) Run() {
 	var err error
 	SERVER = gin.Default()
-	SERVER.Use(middlewares.CORSMiddleware())
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:4200", "https://bean.naresh.pro"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Accept"}
+
+	// SERVER.Use(middlewares.CORSMiddleware())
+	SERVER.Use(cors.New(config))
 	apiRoutes := SERVER.Group("/api/auth")
 	protectedRoutes := apiRoutes.Group("/protected")
 	protectedRoutes.Use(middlewares.JwtMiddleware())
