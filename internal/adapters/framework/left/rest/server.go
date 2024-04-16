@@ -30,7 +30,7 @@ func (rest Adapter) Run() {
 	var err error
 	SERVER = gin.Default()
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"https://bean.naresh.pro"}
+	config.AllowOrigins = []string{"*"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Accept"}
 
