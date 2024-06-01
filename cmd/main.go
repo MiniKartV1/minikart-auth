@@ -14,7 +14,7 @@ import (
 
 	"github.com/joho/godotenv"
 )
-
+// acts as a orchestration for the entire go project
 func main() {
 	fmt.Println("Starting main function.")
 
